@@ -1,3 +1,0 @@
-2018-06-14 19:15:51,179 - generate-srv-list.py - INFO - Get list of SRV from Puppet "flaprdpup01.flox-arts.in"
-2018-06-14 19:15:51,630 - generate-srv-list.py - INFO - "5" SRV(s) found
-2018-06-14 19:15:51,631 - generate-srv-list.py - INFO - Write SRV list in file "data/list-srv.txt"
