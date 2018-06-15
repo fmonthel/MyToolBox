@@ -21,7 +21,7 @@ APPLICATION=os.path.basename(__file__)
 # Function to apt-get update and upgrade on srv
 def update_upgrade_apt(host):
     # We will connect on server with SSH and list certificate files signed on Puppet
-    ssh = subprocess.Popen(["ssh", "%s" % "root@"+host, "apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean"],
+    ssh = subprocess.Popen(["ssh -o 'StrictHostKeyChecking no'", "%s" % "root@"+host, "apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean"],
                        shell=False,
                        stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE)
