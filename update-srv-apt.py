@@ -49,7 +49,7 @@ def main():
     file_config = os.path.join(os.path.dirname(__file__), 'conf/config.ini')
     Config = ConfigParser.ConfigParser()
     Config.read(file_config)
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(APPLICATION)
     handler = logging.FileHandler(os.path.join(os.path.dirname(__file__), 'log/'+APPLICATION+'.log'))
     handler.setLevel(logging.DEBUG)
