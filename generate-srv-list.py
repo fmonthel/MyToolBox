@@ -34,7 +34,7 @@ def get_list_srv_from_puppet(user,host,certdir):
     for v in result :
         host = v.replace(".pem","").replace("\n","") # Remove some values
         tmp.append(host)
-        logging.getLogger(APPLICATION).debug(' Add SRV "' + str(host) + '" in SRV list from Puppet')
+        logging.getLogger(APPLICATION).debug('Add SRV "' + str(host) + '" in SRV list from Puppet')
     # Return list
     return tmp
 

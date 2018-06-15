@@ -35,7 +35,13 @@ def update_upgrade_apt(host):
 def get_list_srv_from_file(srv_inventory_file):
     # Open file in RO mode and return list
     mysrv = open(srv_inventory_file, "r")
-    return mysrv.readlines()
+    tmp = list()
+    for host in mysrv:
+        host.replace("\n","")
+        tmp.append(host)
+        logging.getLogger(APPLICATION).debug('Add SRV "' + str(host) + '" in SRV list')
+    # Return list
+    return tmp
 
 def main():
     # Config setupm(time,conf,logger)
