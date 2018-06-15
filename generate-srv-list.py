@@ -20,7 +20,7 @@ APPLICATION=os.path.basename(__file__)
 # Function to return the list of SRV from Puppet master
 def get_list_srv_from_puppet(user,host,certdir):
     # We will connect on server with SSH and list certificate files signed on Puppet
-    ssh = subprocess.Popen(["ssh", "%s" % user+"@"+host, "ls "+certdir],
+    ssh = subprocess.Popen(["ssh -o \"StrictHostKeyChecking no\"", "%s" % user+"@"+host, "ls "+certdir],
                        shell=False,
                        stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE)
