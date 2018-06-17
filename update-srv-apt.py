@@ -59,7 +59,7 @@ def main():
     
     try :
         # Get list of SRV
-        logger.info('Get list of SRV from file "' + str(Config.get('GLOBAL','srv_inventory_file')) + '"')
+        logger.info('Get list of SRV from golden source "' + str(Config.get('GLOBAL','srv_inventory_file')) + '"')
         srvs = get_list_srv_from_file(Config.get('GLOBAL','srv_inventory_file'))
         logger.info('"' + str(len(srvs)) + '" SRV(s) found')
         # Update each servers
