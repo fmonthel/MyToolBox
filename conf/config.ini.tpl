@@ -10,3 +10,6 @@ certdir: etc/puppet/ssl/ca/signed
 host: puppet.flox-arts.net
 user: puppet
 confdir: etc/rsync-time-machine
+
+[FLA_API]
+api_ep_contract: http://localhost:8888/api/billing/contract/
