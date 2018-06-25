@@ -73,18 +73,29 @@ def get_list_srv_from_file(srv_inventory_file):
     return tmp
 
 def main():
-    # Config setupm(time,conf,logger)
+    
+    # Config setup (time,conf)
     time_start = datetime.datetime.now()
     file_config = os.path.join(os.path.dirname(__file__), 'conf/config.ini')
     Config = ConfigParser.ConfigParser()
     Config.read(file_config)
-    logging.basicConfig(level=logging.INFO)
+    
+    # Create logger APPLICATION
     logger = logging.getLogger(APPLICATION)
-    handler = logging.FileHandler(os.path.join(os.path.dirname(__file__), 'log/'+APPLICATION+'.log'))
-    handler.setLevel(logging.DEBUG)
+    logger.setLevel(logging.DEBUG)
+    # Create file handler which logs even debug messages
+    fh = logging.FileHandler(filename=os.path.join(os.path.dirname(__file__), 'log/'+APPLICATION+'.log'))
+    fh.setLevel(logging.DEBUG)
+    # Create console stderr handler with a higher log level
+    eh = logging.StreamHandler(sys.stderr)
+    eh.setLevel(logging.ERROR)
+    # Create formatter and add it to the handlers
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
+    fh.setFormatter(formatter)
+    eh.setFormatter(formatter)
+    # Add the handlers to the logger
+    logger.addHandler(fh)
+    logger.addHandler(eh)
     
     try :
         # Get list of SRV from Golden source
