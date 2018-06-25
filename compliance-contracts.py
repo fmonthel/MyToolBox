@@ -51,8 +51,8 @@ def parse_list_contracts(contracts):
         if contract["sid"] == None and contract["flag"] != 'end' and enddate < alert_enddate_soon:
             logging.getLogger(APPLICATION).error('[ENDCONTRACT_SOON] Contract ' + str(contract["id"]) + ' will end soon - Unix customer : ' + str(contract["customer_unix"]) + ' - End date : ' + str(contract["enddate"]))
             return_value = -1
-        # Return
-        return return_value
+    # Return
+    return return_value
         
 def main():
     

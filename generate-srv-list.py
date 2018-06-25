@@ -47,8 +47,7 @@ def write_srv_in_file(list_srv,file) :
     for srv in list_srv :
         mysrv.write("%s\n" % str(srv))
     # Close file
-    mysrv.close()
-        
+    mysrv.close()  
 
 def main():
     
@@ -92,8 +91,13 @@ def main():
         print "- Finish time : %s" % (time_stop.strftime("%Y-%m-%d %H:%M:%S"))
         print "- Delta time : %d second(s)" % (time_delta.total_seconds())
         print "- Log file : %s" % (os.path.join(os.path.dirname(__file__), 'log/'+APPLICATION+'.log'))
+        sys.exit(0)
     except Exception as e :
         logger.error('RunTimeError during instance creation : %s', str(e))
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        sys.exit(-1)
          
 if __name__ == "__main__":
     main()
