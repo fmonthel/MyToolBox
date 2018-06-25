@@ -34,6 +34,7 @@ def get_list_contracts(endpoint):
 # Contract not paid after 1 month of the start date
 def parse_list_contracts(contracts):
     
+    return_value = 0
     # We will parse dic
     for contract in contracts:
         today = datetime.datetime.now()
@@ -44,10 +45,14 @@ def parse_list_contracts(contracts):
         # Start date + 1 month and status = waiting
         if contract["flag"] == 'waiting' and today > alert_not_paid :
             logging.getLogger(APPLICATION).error('[PAYEMENT_LATE] Contract ' + str(contract["id"]) + ' is not paid - Unix customer : ' + str(contract["customer_unix"]) + ' - Start date : ' + str(contract["startdate"]))
+            return_value = -1
         # End of contract soon
         if contract["sid"] == None and contract["flag"] != 'end' and enddate < alert_enddate_soon:
             logging.getLogger(APPLICATION).error('[ENDCONTRACT_SOON] Contract ' + str(contract["id"]) + ' will end soon - Unix customer : ' + str(contract["customer_unix"]) + ' - End date : ' + str(contract["enddate"]))
-
+            return_value = -1
+        # Return
+        return return_value
+        
 def main():
     
     # Config setup (time,conf)
@@ -79,7 +84,7 @@ def main():
         contracts = get_list_contracts(Config.get('FLA_API','api_ep_contract'))
         logger.debug('"' + str(len(contracts)) + '" contract(s) found')
         # Now we will parse contract and raise anomalies
-        parse_list_contracts(contracts)
+        result = parse_list_contracts(contracts)
         # End script
         time_stop = datetime.datetime.now()
         time_delta = time_stop - time_start
@@ -89,11 +94,13 @@ def main():
         print "- Finish time : %s" % (time_stop.strftime("%Y-%m-%d %H:%M:%S"))
         print "- Delta time : %d second(s)" % (time_delta.total_seconds())
         print "- Log file : %s" % (os.path.join(os.path.dirname(__file__), 'log/'+APPLICATION+'.log'))
+        return result
     except Exception as e :
         logger.error('RunTimeError during instance creation : %s', str(e))
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         print(exc_type, fname, exc_tb.tb_lineno)
+        return -1
          
 if __name__ == "__main__":
     main()
