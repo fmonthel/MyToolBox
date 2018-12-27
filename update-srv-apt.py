@@ -29,7 +29,7 @@ def update_upgrade_apt(host):
     if result == []:
         error = ssh.stderr.readlines()
         logging.getLogger(APPLICATION).warning('SSH error raised on "' + str(host) + '" : "' + str(error) + '"')
-        return -1
+        return 0
     # Return
     return 0
 
