@@ -28,7 +28,7 @@ def update_upgrade_apt(host):
     result = ssh.stdout.readlines()
     if result == []:
         error = ssh.stderr.readlines()
-        raise RuntimeError('SSH error raised : "' + error + '"')
+        raise RuntimeError('SSH error raised : "' + str(error) + '"')
     # Return
     return 0
 
