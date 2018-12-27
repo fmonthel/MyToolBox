@@ -29,7 +29,7 @@ def update_upgrade_apt(host):
     if result == []:
         error = ssh.stderr.readlines()
         logging.getLogger(APPLICATION).error('SSH error raised on "' + str(host) + '" : "' + str(error) + '"')
-        return 0
+        return -1
     # Return
     return 0
 
@@ -76,9 +76,12 @@ def main():
         srvs = get_list_srv_from_file(Config.get('GLOBAL','srv_inventory_file'))
         logger.info('"' + str(len(srvs)) + '" SRV(s) found')
         # Update each servers
+        ret_code = 0
         for srv in srvs:
             logger.info('Update and upgrade apt on SRV "' + str(srv) + '"')
-            update_upgrade_apt(srv)
+            ret = update_upgrade_apt(srv)
+            if ret == -1:
+                   ret_code = ret
         # End script
         time_stop = datetime.datetime.now()
         time_delta = time_stop - time_start
@@ -88,7 +91,7 @@ def main():
         print "- Finish time : %s" % (time_stop.strftime("%Y-%m-%d %H:%M:%S"))
         print "- Delta time : %d second(s)" % (time_delta.total_seconds())
         print "- Log file : %s" % (os.path.join(os.path.dirname(__file__), 'log/'+APPLICATION+'.log'))
-        sys.exit(0)
+        sys.exit(ret_code)
     except Exception as e :
         logger.error('RunTimeError during instance creation : %s', str(e))
         exc_type, exc_obj, exc_tb = sys.exc_info()
