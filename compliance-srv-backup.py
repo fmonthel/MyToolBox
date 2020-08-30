@@ -21,7 +21,7 @@ APPLICATION=os.path.basename(__file__)
 # Function to get all config files
 def get_list_srv_from_backup_node(user,node,confdir):
     # We will connect on server with SSH and list backup conf files
-    ssh = subprocess.Popen(["ssh", "-o", "StrictHostKeyChecking=no", "%s" % user+"@"+node, "ls "+confdir+"/srv.*"],
+    ssh = subprocess.Popen(["ssh", "-o", "StrictHostKeyChecking=no", "%s" % str(user)+"@"+str(node), "ls "+confdir+"/srv.*"],
                        shell=False,
                        stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE)
