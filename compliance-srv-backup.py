@@ -28,7 +28,7 @@ def get_list_srv_from_backup_node(user,node,confdir):
     result = ssh.stdout.readlines()
     if result == []:
         error = ssh.stderr.readlines()
-        raise RuntimeError('SSH error raised : "' + error + '"')
+        raise RuntimeError('SSH error raised : "' + str(error) + '"')
 
     # Now work on result array
     tmp = list()
