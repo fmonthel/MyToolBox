@@ -33,7 +33,7 @@ def get_list_srv_from_backup_node(user,node,confdir):
     # Now work on result array
     tmp = list()
     for v in result :
-        host = v.replace(".conf","").replace("srv.","").replace("\n","").replace(confdir+"/","") # Remove some values
+        host = v.replace(".conf","").replace("srv.","").replace("\n","").replace(str(confdir)+"/","") # Remove some values
         tmp.append(host)
         logging.getLogger(APPLICATION).debug('Add SRV "' + str(host) + '" in SRV list from backup node')
     # Return list
@@ -41,7 +41,7 @@ def get_list_srv_from_backup_node(user,node,confdir):
 
 def add_srv_on_backup_node(user,node,confdir,host):
     # We will connect on server with SSH and copy backup file
-    ssh = subprocess.Popen(["ssh", "-o", "StrictHostKeyChecking=no", "%s" % user+"@"+node, "cp "+confdir+"/srv.TEMPLATE.conf.tpl "+confdir+"/srv."+host+".conf"],
+    ssh = subprocess.Popen(["ssh", "-o", "StrictHostKeyChecking=no", "%s" % str(user)+"@"+str(node), "cp "+str(confdir)+"/srv.TEMPLATE.conf.tpl "+str(confdir)+"/srv."+str(host)+".conf"],
                       shell=False,
                       stdout=subprocess.PIPE,
                       stderr=subprocess.PIPE)
@@ -50,7 +50,7 @@ def add_srv_on_backup_node(user,node,confdir,host):
         error = ssh.stderr.readlines()
         raise RuntimeError('SSH error raised : "' + error + '"')
     # We will now replace value HOST and FQDN inside the file
-    ssh = subprocess.Popen(["ssh", "-o", "StrictHostKeyChecking=no", "%s" % user+"@"+node, "sed -i -e \'s/HOST/"+host+"/g\' "+confdir+"/srv."+host+".conf"],
+    ssh = subprocess.Popen(["ssh", "-o", "StrictHostKeyChecking=no", "%s" % str(user)+"@"+str(node), "sed -i -e \'s/HOST/"+str(host)+"/g\' "+str(confdir)+"/srv."+str(host)+".conf"],
                       shell=False,
                       stdout=subprocess.PIPE,
                       stderr=subprocess.PIPE)
