@@ -21,7 +21,7 @@ APPLICATION=os.path.basename(__file__)
 # Function to get all config files
 def get_list_srv_from_backup_node(user,node,confdir):
     # We will connect on server with SSH and list backup conf files
-    ssh = subprocess.Popen(["ssh", "-o", "StrictHostKeyChecking=no", "%s" % str(user)+"@"+str(node), "ls "+str(confdir)+"/srv.*"],
+    ssh = subprocess.Popen(["ssh", "-o", "UserKnownHostsFile=/dev/null", "-o", "StrictHostKeyChecking=no", "%s" % str(user)+"@"+str(node), "ls "+str(confdir)+"/srv.*"],
                        shell=False,
                        stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE)
@@ -41,7 +41,7 @@ def get_list_srv_from_backup_node(user,node,confdir):
 
 def add_srv_on_backup_node(user,node,confdir,host):
     # We will connect on server with SSH and copy backup file
-    ssh = subprocess.Popen(["ssh", "-o", "StrictHostKeyChecking=no", "%s" % str(user)+"@"+str(node), "cp "+str(confdir)+"/srv.TEMPLATE.conf.tpl "+str(confdir)+"/srv."+str(host)+".conf"],
+    ssh = subprocess.Popen(["ssh", "-o", "UserKnownHostsFile=/dev/null", "-o", "StrictHostKeyChecking=no", "%s" % str(user)+"@"+str(node), "cp "+str(confdir)+"/srv.TEMPLATE.conf.tpl "+str(confdir)+"/srv."+str(host)+".conf"],
                       shell=False,
                       stdout=subprocess.PIPE,
                       stderr=subprocess.PIPE)
@@ -50,7 +50,7 @@ def add_srv_on_backup_node(user,node,confdir,host):
         error = ssh.stderr.readlines()
         raise RuntimeError('SSH error raised : "' + error + '"')
     # We will now replace value HOST and FQDN inside the file
-    ssh = subprocess.Popen(["ssh", "-o", "StrictHostKeyChecking=no", "%s" % str(user)+"@"+str(node), "sed -i -e \'s/HOST/"+str(host)+"/g\' "+str(confdir)+"/srv."+str(host)+".conf"],
+    ssh = subprocess.Popen(["ssh", "-o", "UserKnownHostsFile=/dev/null", "-o", "StrictHostKeyChecking=no", "%s" % str(user)+"@"+str(node), "sed -i -e \'s/HOST/"+str(host)+"/g\' "+str(confdir)+"/srv."+str(host)+".conf"],
                       shell=False,
                       stdout=subprocess.PIPE,
                       stderr=subprocess.PIPE)
